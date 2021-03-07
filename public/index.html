@@ -61,7 +61,7 @@
 <body>
   <div class="row m-0 h-100">
     <div class="col p-0 text-center d-flex justify-content-center align-items-center display-none">
-      <img src="./img/login.svg" class="w-100" />
+      <img src="login.svg" class="w-100" />
     </div>
     <div class="col p-0 bg-custom d-flex justify-content-center align-items-center flex-column w-100">
       <form class="w-75" id="form" method="post" action="/login">
@@ -69,11 +69,11 @@
         <input type="hidden" name="action" value="validate_captcha" />
         <div class="mb-3">
           <label for="exampleFormControlInput1" class="form-label">Username</label>
-          <input type="text" class="form-control" name="name" placeholder="username" required />
+          <input type="text" value="admin" class="form-control" name="name" placeholder="username" required />
         </div>
         <div class="mb-3">
           <label for="exampleFormControlInput2" class="form-label">Password</label>
-          <input type="password" class="form-control" name="password" placeholder="password" required />
+          <input type="password" value="admin" class="form-control" name="password" placeholder="password" required />
         </div>
         <button type="button" onclick="onClick(event)" class="btn btn-custom btn-lg btn-block mt-3">Login Now</button>
       </form>

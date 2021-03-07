@@ -6,11 +6,11 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv'); dotenv.config();
 //const http = require('http');
 
-const bent = require('bent')
-const getJSON = bent('json')
+const bent = require('bent'); const getJSON = bent('json');
 
-const hostname = process.env.HOSTNAME;
-const port = process.env.PORT;
+const hostname = process.env.HOSTNAME; const port = process.env.PORT;
+
+let isLogged = false;
 
 const options = {
 	key: fs.readFileSync('server-key.pem'),
@@ -22,17 +22,23 @@ const options = {
 
 const app = express();
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
+app.use(express.static('public/img/'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const server = https.createServer(options, app)
 
 app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, './public/index.html'));
+	if(isLogged)
+		res.sendFile(path.join(__dirname, './public/home.html'));
+	else
+		res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 app.get('/home', (req, res) => {
-	res.sendFile(path.join(__dirname, './public/home.html'));
+	if(isLogged)
+		res.sendFile(path.join(__dirname, './public/home.html'));
+	else
+		res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 app.post('/login', async function (req, res) {
@@ -44,14 +50,21 @@ app.post('/login', async function (req, res) {
 
 	let captcha = await getJSON(verificationURL);
 
-	if (captcha.success !== undefined && captcha.success && captcha.score > 0.1 && req.body.name === "a" && req.body.password === "a")
-		res.redirect("/home")
-	else
+	if (captcha.success !== undefined && captcha.success && captcha.score > 0.1 && req.body.name === "admin" && req.body.password === "adminnpm install ejs"){
+		res.redirect("/home");
+		isLogged = true;
+	} else{
 		res.redirect("/")
+		isLogged = false;
+	}
+});
 
-
+app.get('/logout', (req, res) => {
+	isLogged = false;
+	res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 server.listen(port, hostname, function () {
 	console.log("server is listening at " + hostname + " on port: " + port);
 });
+
