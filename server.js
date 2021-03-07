@@ -3,15 +3,14 @@ const https = require('https');
 const fs = require('fs');
 const path = require("path");
 const bodyParser = require('body-parser');
-const fetch = require('isomorphic-fetch');
-const request = require('request');
+const dotenv = require('dotenv'); dotenv.config();
 //const http = require('http');
 
 const bent = require('bent')
 const getJSON = bent('json')
 
-const hostname = '127.0.0.1';
-const port = 3000;
+const hostname = process.env.HOSTNAME;
+const port = process.env.PORT;
 
 const options = {
 	key: fs.readFileSync('server-key.pem'),
@@ -41,21 +40,18 @@ app.post('/login', async function (req, res) {
 	if (req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
 		return res.json({ "responseError": "something goes to wrong" });
 	}
-	const secretKey = "6LcI_28aAAAAAP9SgZOp_mvBaT3kuX8tTqp-d2bV";
-	let pass = true;
-
-	const verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+	const verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + process.env.SECRET_KEY + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
 
 	let captcha = await getJSON(verificationURL);
 
 	if (captcha.success !== undefined && captcha.success && captcha.score > 0.1 && req.body.name === "a" && req.body.password === "a")
 		res.redirect("/home")
 	else
-		res.redirect("/", {msg: "Username or password incorrect"})
+		res.redirect("/")
 
 
 });
 
 server.listen(port, hostname, function () {
-	console.log("server is listening on port: 3000");
+	console.log("server is listening at " + hostname + " on port: " + port);
 });
