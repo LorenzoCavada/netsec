@@ -25,20 +25,21 @@ app.set('view engine', 'ejs');
 app.use(express.static('public/img/'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.set('view engine', 'ejs');
 const server = https.createServer(options, app)
 
 app.get('/', (req, res) => {
-	if(isLogged)
-		res.sendFile(path.join(__dirname, './public/home.html'));
+	if (isLogged)
+		res.render(path.join(__dirname, './public/home.ejs'));
 	else
-		res.sendFile(path.join(__dirname, './public/index.html'));
+		res.render(path.join(__dirname, './public/index.ejs'));
 });
 
 app.get('/home', (req, res) => {
-	if(isLogged)
-		res.sendFile(path.join(__dirname, './public/home.html'));
+	if (isLogged)
+		res.render(path.join(__dirname, './public/home.ejs'));
 	else
-		res.sendFile(path.join(__dirname, './public/index.html'));
+		res.render(path.join(__dirname, './public/index.ejs'));
 });
 
 app.post('/login', async function (req, res) {
@@ -50,18 +51,18 @@ app.post('/login', async function (req, res) {
 
 	let captcha = await getJSON(verificationURL);
 
-	if (captcha.success !== undefined && captcha.success && captcha.score > 0.1 && req.body.name === "admin" && req.body.password === "adminnpm install ejs"){
-		res.redirect("/home");
+	if (captcha.success !== undefined && captcha.success && captcha.score > 0.1 && req.body.name === "admin" && req.body.password === "admin") {
+		res.render(path.join(__dirname, './public/home.ejs'));
 		isLogged = true;
-	} else{
-		res.redirect("/")
+	} else {
+		res.render(path.join(__dirname, './public/index.ejs'), {error: "WARNING: Login failed, try again!"});
 		isLogged = false;
 	}
 });
 
 app.get('/logout', (req, res) => {
 	isLogged = false;
-	res.sendFile(path.join(__dirname, './public/index.html'));
+	res.render(path.join(__dirname, './public/index.ejs'));
 });
 
 server.listen(port, hostname, function () {

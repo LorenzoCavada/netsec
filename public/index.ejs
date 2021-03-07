@@ -74,6 +74,9 @@
         <div class="mb-3">
           <label for="exampleFormControlInput2" class="form-label">Password</label>
           <input type="password" value="admin" class="form-control" name="password" placeholder="password" required />
+          <% if (typeof error != 'undefined') { %>
+            <p style="color:white"><%= error %></p>
+          <% } %>
         </div>
         <button type="button" onclick="onClick(event)" class="btn btn-custom btn-lg btn-block mt-3">Login Now</button>
       </form>
