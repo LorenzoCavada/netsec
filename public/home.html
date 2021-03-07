@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300i,400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+  <script src="https://www.google.com/recaptcha/api.js?render=6LcI_28aAAAAAAYp7OQpu6ZDfM7raPb9BBjF600r"></script>
+
+  <title>Super Secret Site</title>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      height: 100vh;
+      font-family: "Nunito Sans";
+    }
+
+    .form-control {
+      line-height: 2;
+    }
+
+    .bg-custom {
+      background-color: #6C63FF;
+    }
+
+    .btn-custom {
+      background-color: #3e3d56;
+      color: #fff;
+    }
+
+    .btn-custom:hover {
+      background-color: #33313f;
+      color: #fff;
+    }
+
+    label {
+      color: #fff;
+    }
+
+    a,
+    a:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    a,
+    a:hover {
+      text-decoration: none;
+    }
+
+    @media(max-width: 932px) {
+      .display-none {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="row m-0 h-100">
+    <div class="col p-0 text-center d-flex justify-content-center align-items-center display-none">
+      <img src="./img/login.svg" class="w-100" />
+    </div>
+    <div class="col p-0 bg-custom d-flex justify-content-center align-items-center flex-column w-100">
+     <h1 style="color: white;">WELCOME!</h1>
+    </div>
+  </div>
+
+  <script>
+    function onClick(e) {
+      e.preventDefault();
+      grecaptcha.ready(function () {
+        grecaptcha.execute('6LcI_28aAAAAAAYp7OQpu6ZDfM7raPb9BBjF600r', { action: 'submit' }).then(function (token) {
+          document.getElementById('g-recaptcha-response').value = token;
+          document.getElementById('form').submit();
+        }).catch(console.error);
+
+      });
+    }
+  </script>
+</body>
+
+</html>
