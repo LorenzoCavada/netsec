@@ -13,9 +13,9 @@ const hostname = process.env.HOSTNAME; const port = process.env.PORT;
 let isLogged = false;
 
 const options = {
+	ca: fs.readFileSync('minica.pem'),
 	key: fs.readFileSync('server-key.pem'),
-	cert: fs.readFileSync('server-crt.pem'),
-	ca: fs.readFileSync('ca-crt.pem'),
+	cert: fs.readFileSync('server-cert.pem'),
 	requestCert: true,
 	rejectUnauthorized: true
 };
@@ -55,7 +55,7 @@ app.post('/login', async function (req, res) {
 		res.render(path.join(__dirname, './public/home.ejs'));
 		isLogged = true;
 	} else {
-		res.render(path.join(__dirname, './public/index.ejs'), {error: "WARNING: Login failed, try again!"});
+		res.render(path.join(__dirname, './public/index.ejs'), {error: "Login failed, try again!"});
 		isLogged = false;
 	}
 });

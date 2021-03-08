@@ -68,11 +68,11 @@
         <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" />
         <input type="hidden" name="action" value="validate_captcha" />
         <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">Username</label>
+          <label for="Username" class="form-label">Username</label>
           <input type="text" value="admin" class="form-control" name="name" placeholder="username" required />
         </div>
         <div class="mb-3">
-          <label for="exampleFormControlInput2" class="form-label">Password</label>
+          <label for="Password" class="form-label">Password</label>
           <input type="password" value="admin" class="form-control" name="password" placeholder="password" required />
           <% if (typeof error != 'undefined') { %>
             <p style="color:white"><%= error %></p>
@@ -88,6 +88,7 @@
       e.preventDefault();
       grecaptcha.ready(function () {
         grecaptcha.execute('6LcI_28aAAAAAAYp7OQpu6ZDfM7raPb9BBjF600r', { action: 'submit' }).then(function (token) {
+          //server logic
           document.getElementById('g-recaptcha-response').value = token;
           document.getElementById('form').submit();
         }).catch(console.error);
